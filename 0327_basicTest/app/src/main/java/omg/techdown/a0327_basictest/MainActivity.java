@@ -148,6 +148,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void onClickSub(View view){
+        if(dataList.size() == 0) {
+            Toast.makeText(MainActivity.this, "요소가 하나도 없습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        //다음 패이지로 화면을 전환
+        // 화면을 전환할때 사용하는 클래스 그것이 Intent 클래스이다.
+        // 첫번쨰 파라미터는 이동 전 액티비티, 두번쨰 파라미터는 이동할 액티비티
+        // 이 인텐트는 a에서 b로 이동한다는 화면 전환 정보를 가지고 있다./
+        Intent intent = new Intent(MainActivity.this, SubActivity.class );
+        // 화면 전환하기!!
+        startActivityForResult(intent, 1);
+
+
+    }
+
 
 
 

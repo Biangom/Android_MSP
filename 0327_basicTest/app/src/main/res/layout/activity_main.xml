@@ -76,9 +76,15 @@
 
 
     <Button
+        android:id="@+id/IdBtnNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="next"
-        android:id="@+id/IdBtnNext"
-        />
+        android:text="등록" />
+
+    <Button
+        android:id="@+id/IdBtnSub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickSub"
+        android:text="해제" />
 </LinearLayout>

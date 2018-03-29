@@ -71,7 +71,7 @@
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="경도 입력" />
+            android:hint="경도 입력" />
 
 
     </LinearLayout>
@@ -93,7 +93,7 @@
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="반경 입력" />
+            android:hint="반경 입력" />
 
 
     </LinearLayout>
@@ -102,10 +102,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="등록"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-
+        android:id="@+id/IdBtnPrev"
+        android:onClick="homeMove"
         />
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="309dp"
@@ -157,20 +157,6 @@
 
 
     </LinearLayout>
-
-
-
-
-
-
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="prev"
-        android:id="@+id/IdBtnPrev"
-        android:onClick="homeMove"
-        />
 
 
 </LinearLayout>

@@ -1,16 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="omg.techdown.a0327_basictest.SubActivity">
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="현재 등록된 근접경보" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="1. " />
+
+        <TextView
+            android:id="@+id/IdTv1"
+            android:layout_width="181dp"
+            android:gravity="center_vertical"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="2. " />
+
+        <TextView
+            android:id="@+id/IdTv2"
+            android:layout_width="181dp"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="3. " />
+
+        <TextView
+            android:id="@+id/IdTv3"
+            android:layout_width="180dp"
+            android:gravity="center_vertical"
+            android:layout_height="50dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="75dp"
+        android:layout_height="30dp"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:text="이름 :" />
+
+    <EditText
+        android:id="@+id/IdEditText"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="이름 입력"
+        android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="5dp"
-        tools:layout_editor_absoluteY="83dp" />
-</android.support.constraint.ConstraintLayout>
+        android:onClick="onClickSub"
+        android:text="삭제" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

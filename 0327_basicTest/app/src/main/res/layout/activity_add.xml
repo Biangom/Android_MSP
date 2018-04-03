@@ -134,7 +134,7 @@
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="123124 " />
+            android:text="로딩중.." />
 
 
     </LinearLayout>
@@ -153,10 +153,17 @@
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="11233 " />
+            android:text="로딩중.." />
 
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/IdNowReg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="이 위치로 등록"
+        android:onClick="nowRegister"/>
 
 
 </LinearLayout>

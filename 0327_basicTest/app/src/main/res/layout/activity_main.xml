@@ -34,6 +34,14 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"/>
 
+        <Button
+            android:id="@+id/IdInfo1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="정보보기"
+            android:onClick="ClcikInfo"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -53,6 +61,14 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"/>
 
+        <Button
+            android:id="@+id/IdInfo2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="정보보기"
+            android:onClick="ClcikInfo"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -70,8 +86,15 @@
             android:id="@+id/IdName3"
             android:layout_width="150dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="default_empty" />
+            android:gravity="center_vertical" />
+
+        <Button
+            android:id="@+id/IdInfo3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="정보보기"
+            android:onClick="ClcikInfo"/>
     </LinearLayout>
 
 
@@ -88,4 +111,5 @@
         android:layout_height="wrap_content"
         android:onClick="onClickSub"
         android:text="해제" />
+
 </LinearLayout>

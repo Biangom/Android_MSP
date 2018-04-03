@@ -3,16 +3,15 @@ package omg.techdown.a0327_basictest;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+// Parcelable을 implements한 이유는 인텐트에서 ArrayList를 전달하기 위함
 public class Data implements Parcelable {
-    String name;
-    float lat;
-    float lon;
-    int rad;
+    String name;    // 지역 이름
+    double lat;     // 위도
+    double lon;     // 경도
+    float rad;      // 반경
 
     public Data() {
     }
-
-
 
     public Data(String name, float lat, float lon, int rad) {
         this.name = name;
@@ -21,12 +20,11 @@ public class Data implements Parcelable {
         this.rad = rad;
     }
 
-
     protected Data(Parcel in) {
         name = in.readString();
-        lat = in.readFloat();
-        lon = in.readFloat();
-        rad = in.readInt();
+        lat = in.readDouble();
+        lon = in.readDouble();
+        rad = in.readFloat();
     }
 
     public static final Creator<Data> CREATOR = new Creator<Data>() {
@@ -49,7 +47,7 @@ public class Data implements Parcelable {
         this.name = name;
     }
 
-    public float getLat() {
+    public double getLat() {
         return lat;
     }
 
@@ -57,7 +55,7 @@ public class Data implements Parcelable {
         this.lat = lat;
     }
 
-    public float getLon() {
+    public double getLon() {
         return lon;
     }
 
@@ -65,7 +63,7 @@ public class Data implements Parcelable {
         this.lon = lon;
     }
 
-    public int getRad() {
+    public float getRad() {
         return rad;
     }
 
@@ -83,9 +81,8 @@ public class Data implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(this.name);
-        parcel.writeFloat(this.lat);
-        parcel.writeFloat(this.lon);
-        parcel.writeInt(this.rad);
-
+        parcel.writeDouble(this.lat);
+        parcel.writeDouble(this.lon);
+        parcel.writeFloat(this.rad);
     }
 }

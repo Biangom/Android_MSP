@@ -198,7 +198,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         for(int i = 0; i < dataList.size(); i++)
             exitAlert(i);
 
-        unregisterReceiver(receiver);
+        // 등록되었을 떄만 해제하기 위함
+        try {
+            unregisterReceiver(receiver);
+        }
+        catch (IllegalArgumentException e)
+        {
+            return;
+        }
     }
 
 

@@ -2,6 +2,7 @@ package com.example.kss78.assignment2;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.DialogInterface;
@@ -21,23 +22,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DialogBox.OnCompleteListener {
 
     boolean isPermitted = false;
     final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 1;
 
-    BluetoothAdapter mBTAdapter;
-    BluetoothManager mBTManager;
-    static final int REQUEST_ENABLE_BT = 1;
-    static final int REQUEST_ENABLE_DISCOVER = 2;
-    TextView logText;
-    String btName;
-    String userName;
-    EditText bt;
-    EditText user;
+    BluetoothAdapter mBTAdapter; // 블루투스 어답터 변수 선언
+    BluetoothManager mBTManager; // 블루투스 매니저 변수 선언
+    static final int REQUEST_ENABLE_BT = 1; // 블루투스 요청을 허락
+    static final int REQUEST_ENABLE_DISCOVER = 2; // discover 요청을 허락
+    TextView logText; // log를 기록할 TextView
+
 
     // 파일 매니저 관련 설정
     TextFileManager mFileMgr;
@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     // TimerTask 관련 설정
     Timer timer = new Timer();
     TimerTask timerTask = null;
+
+    // BtDevice들의 목록 저장
+    ArrayList<BtDevice> dataList = new ArrayList<BtDevice>();
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -59,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         logText = (TextView)findViewById(R.id.logText);
         logText.setMovementMethod(new ScrollingMovementMethod());
-        bt = (EditText)findViewById(R.id.btName);
-        user = (EditText)findViewById(R.id.userName);
+
 
         // Bluetooth Adapter 얻기 ========================//
         // 1. BluetoothManager 통해서
@@ -113,9 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Timer Start 설정
         startTimerTask();
-
-
-
     }
 
     @Override
@@ -140,35 +139,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // "Register BT device and user", "Start/Stop encounter monitoring" 버튼을 눌렀을 때 실행되는 메소드
+    // 이외에도 Device 등록하기, Device 목록보기, Device Reset하기, Log Reset하기 버튼이 있다.
     // 레이아웃 파일 activity_main.xml 파일에서 해당 버튼의 onClick 속성 값으로 지정되어 있는 상태
     public void onClick(View view) {
-        if(view.getId() == R.id.regiBtn) {
-            Toast.makeText(this, "BT 디바이스와 사용자 이름 등록!!", Toast.LENGTH_LONG).show();
 
-            // EditText에 입력된 디바이스와 사용자 이름을 String 변수에 담음
-            btName = bt.getText().toString();
-            userName = user.getText().toString();
-
-        } else if(view.getId() == R.id.startMonitorBtn) {
+        if(view.getId() == R.id.startMonitorBtn) {
             // 등록된 BT 디바이스 이름을 주기적으로 검색하여 등록된 사용자와 encounter 모니터를 시작한다
             // 모니터를 수행하는 것은 Service로 구현
             // Service를 EncounterMonitor라는 이름의 클래스로 구현하고 startService로 이 Service를 시작
             // 위에서 모니터링 등록을 한 BT 디바이스 이름을 intent에 담아서 전달
             Intent intent = new Intent(this, EncounterMonitor.class);
 
-            if(btName == null) {return;}
+            if(dataList.size() == 0) {
+                Toast.makeText(this, "요소가 하나도 없어서 등록할 수 없습니다.!", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            intent.putExtra("BTName", btName);
-            intent.putExtra("UserName", userName);
-
+            // StartMonitor와 동시에 현재 저장된 블루투스 기기들의 이름과 유저이름의 값을 전달한다.
+            intent.putParcelableArrayListExtra("list", dataList);
             startService(intent);
         } else if(view.getId() == R.id.stopMonitorBtn) {
             stopService(new Intent(this, EncounterMonitor.class));
 
-        } else if(view.getId() == R.id.resetBtn) {
-//            mFileMgr.save("r123123123");
-//            mFileMgr.delete();
-                show();
+            // 블루투스 디바이스를 등록하는 버튼
+        } else if(view.getId() == R.id.regisBtn) {
+                show(); // dialog 창을 띄운다.
+        } else if(view.getId() == R.id.listCheck) {
+            int len = dataList.size();
+            if(len == 0) {
+                Toast.makeText(this, "데이터가 아무것도 없습니다!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String str = new String();
+            for(int i = 0; i < len; i++ ) {
+                str += dataList.get(i).btName+"/"+dataList.get(i).userName+"\n";
+            }
+            Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+        } else if(view.getId() == R.id.logReset ) {
+            mFileMgr.delete(); // log 모두 삭제
+        } else if(view.getId() == R.id.listReset ) {
+            dataList.clear(); // 블루투스 디바이스, 사용자이름 모두 삭제.
         }
     }
 
@@ -294,6 +304,7 @@ public class MainActivity extends AppCompatActivity {
         //***********************************//
     }
 
+    // TimerTask 중단
     private void stopTimerTask() {
         // 1. 모든 태스크를 중단한다
         if (timerTask != null) {
@@ -302,49 +313,44 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // 모달창 띄우기
-    void show()
-    {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("AlertDialog Title");
-//        builder.setMessage("AlertDialog Content");
-//        builder.setPositiveButton("예",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Toast.makeText(getApplicationContext(),"예를 선택했습니다.",Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//        builder.setNegativeButton("아니오",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Toast.makeText(getApplicationContext(),"아니오를 선택했습니다.",Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//        builder.show();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_login, null);
-        builder.setView(view);
-        final Button submit = (Button) view.findViewById(R.id.buttonSubmit);
-        final EditText email = (EditText) view.findViewById(R.id.edittextEmailAddress);
-        final EditText password = (EditText) view.findViewById(R.id.edittextPassword);
+    // dialog창에서 결과를 반환한 값(temp)를 이용하는 함수.
+    @Override
+    public void onInputedData(BtDevice temp) {
+        int len = dataList.size();
 
-        final AlertDialog dialog = builder.create();
-        submit.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String strEmail = email.getText().toString();
-                String strPassword = password.getText().toString();
-                Toast.makeText(getApplicationContext(), strEmail+"/"+strPassword,Toast.LENGTH_LONG).show();
+        // 예외처리: 반환한 temp의 이름이 하나도 없으면, 내용을 입력하지 않았으므로
+        if(temp.btName.equals("") || temp.userName.equals("")) {
+            Toast.makeText(this, "내용이 없습니다.", Toast.LENGTH_LONG).show();
+            return;
+        }
 
-                dialog.dismiss();
+        // 예외처리: size가 3이면 요소가 꽉찼다는 의미.
+        if(len == 3)
+            Toast.makeText(this, "3개 요소가 다 꽉찼습니다!",Toast.LENGTH_LONG).show();
+        else {
+            for(int i = 0; i < len; i++ ) {
+                // 예외처리: 이미 존재하는 블루투스 기기에 대한 처리
+                if(dataList.get(i).btName.equals(temp.btName)) {
+                    Toast.makeText(this, "이미 존재하는 블루투스 기기입니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // 예외처리: 이미 존재하는 사용자 이름에 대한 처리
+                if(dataList.get(i).userName.equals(temp.userName)) {
+                    Toast.makeText(this, "이미 존재하는 사용자 이름입니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
-        });
 
-        dialog.show();
+            dataList.add(temp);
+            Toast.makeText(this, temp.btName+"/"+temp.userName +" 등록 완료!",Toast.LENGTH_LONG).show();
+        }
     }
 
-
-
-
+    // dialog창을 보여준다.
+    void show()
+    {
+        DialogFragment newFragment = new DialogBox();
+        newFragment.show(getFragmentManager(), "dialog"); //"dialog"라는 태그를 갖는 프래그먼트를 보여준다.
+    }
 }

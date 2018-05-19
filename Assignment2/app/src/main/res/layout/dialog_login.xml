@@ -8,25 +8,25 @@ android:paddingLeft="16dp"
 android:paddingRight="16dp"
 android:paddingTop="16dp" >
 
-<TextView
-    android:id="@+id/textviewLogo"
-    android:layout_width="221dp"
-    android:layout_height="54dp"
-    android:layout_centerHorizontal="true"
-    android:layout_marginBottom="16dp"
-    android:textSize="40sp"
-    android:text="Login" />
+    <TextView
+        android:id="@+id/textviewLogo"
+        android:layout_width="221dp"
+        android:layout_height="54dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:text="Device등록"
+        android:textSize="40sp" />
 
-<TextView
-    android:id="@+id/textviewEmailAddress"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/textviewLogo"
-    android:text="Email Address"
-    android:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+        android:id="@+id/textviewEmailAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textviewLogo"
+        android:text="BT Device Name"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 <EditText
-    android:id="@+id/edittextEmailAddress"
+    android:id="@+id/edittextBtName"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ems="10"
@@ -37,29 +37,28 @@ android:paddingTop="16dp" >
     <requestFocus />
 </EditText>
 
-<TextView
-    android:id="@+id/textviewPassword"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Password"
-    android:textAppearance="?android:attr/textAppearanceMedium"
-    android:layout_below="@+id/edittextEmailAddress" />
+    <TextView
+        android:id="@+id/textviewPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edittextBtName"
+        android:text="User Name"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 <EditText
-    android:id="@+id/edittextPassword"
+    android:id="@+id/edittextUserName"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ems="10"
     android:layout_marginBottom="10dp"
-    android:inputType="textPassword"
     android:layout_below="@+id/textviewPassword" />
 
-<Button
-    android:id="@+id/buttonSubmit"
-    android:layout_width="100dp"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/edittextPassword"
-    android:layout_marginBottom="20dp"
-    android:text="Sign In" />
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edittextUserName"
+        android:layout_marginBottom="20dp"
+        android:text="등록" />
 
 </RelativeLayout>

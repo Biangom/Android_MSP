@@ -14,12 +14,13 @@ import java.io.IOException;
 
 public class TextFileManager {
     private static final String FILE_NAME = "encounterlog.txt";
-    private File folder;
-    private String folderPath;
-    private String filePath;
+    private File folder; // 파일 객체
+    private String folderPath;  // 폴더 경로를 담을 string
+    private String filePath;    // 파일 경로를 담을 string(파일포함)
 
     public TextFileManager() {
         // 외부 공용 디렉토리 중 Download 디렉토리에 대한 File 객체 얻음
+        // log파일은 참고로 Downloads폴더에 저장되어있다.
         folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         // 절대 경로 String 값을 얻음
         folderPath = folder.getAbsolutePath();

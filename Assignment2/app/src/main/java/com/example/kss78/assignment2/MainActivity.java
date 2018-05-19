@@ -205,9 +205,7 @@ public class MainActivity extends AppCompatActivity {
                 // sees the explanation, try again to request the permission.
 
             } else {
-
                 // No explanation needed, we can request the permission.
-
                 // 모달창 뜨는거
 
                 ActivityCompat.requestPermissions(MainActivity.this,
